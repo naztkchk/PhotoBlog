@@ -3,10 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="add_action"
+    <item
+        android:id="@+id/add_action"
         android:icon="@mipmap/add_ic"
         android:title="@string/add_post"
         app:showAsAction="always">
     </item>
-    
+
+    <item
+        android:id="@+id/settings_action"
+        android:title="@string/settings"
+        app:showAsAction="never">
+    </item>
+
 </menu>
