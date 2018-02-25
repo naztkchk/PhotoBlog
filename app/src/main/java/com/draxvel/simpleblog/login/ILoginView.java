@@ -7,5 +7,4 @@ public interface ILoginView {
     void showMainActivity();
 
     void showError(final String e);
-
 }

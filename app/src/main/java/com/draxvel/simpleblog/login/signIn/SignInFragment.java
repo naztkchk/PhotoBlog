@@ -89,8 +89,6 @@ public class SignInFragment extends Fragment implements ISignInView{
                 signInPresenter.showForgotPassword();
             }
         });
-
-
     }
 
     @Override
@@ -101,17 +99,4 @@ public class SignInFragment extends Fragment implements ISignInView{
             login_pb.setVisibility(View.INVISIBLE);
         }
     }
-
-
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//        if(currentUser !=null){
-//            showMainAct();
-//        }
-//    }
-
 }
