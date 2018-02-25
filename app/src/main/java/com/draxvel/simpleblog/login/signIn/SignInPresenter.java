@@ -44,11 +44,15 @@ public class SignInPresenter implements ISignInPresenter {
                 }
             });
         }
-
     }
 
     @Override
     public void showSignUp() {
         iLoginView.showSignUp();
+    }
+
+    @Override
+    public void showForgotPassword() {
+        iLoginView.showForgotPassword();
     }
 }

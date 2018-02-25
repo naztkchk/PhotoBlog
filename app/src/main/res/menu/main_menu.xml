@@ -6,7 +6,7 @@
     <item
         android:id="@+id/search_action"
         android:icon="@mipmap/search_ic"
-        android:title="@string/add_post"
+        android:title="@string/search"
         app:showAsAction="always">
     </item>
 

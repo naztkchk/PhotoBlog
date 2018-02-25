@@ -57,7 +57,7 @@
         android:layout_marginTop="26dp"
         android:background="@color/colorPrimary"
         android:shadowRadius="30"
-        android:text="@string/log_in_btn"
+        android:text="@string/log_in"
         android:textColor="@android:color/white" />
 
     <TextView

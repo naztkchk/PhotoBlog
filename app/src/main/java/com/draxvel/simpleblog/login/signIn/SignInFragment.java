@@ -49,15 +49,15 @@ public class SignInFragment extends Fragment implements ISignInView{
         recover_password_tv = root.findViewById(R.id.recover_password_tv);
         signUp_tv = root.findViewById(R.id.signUp_tv);
 
-        recover_password_tv.setText(Html.fromHtml(getResources().getString(R.string.forgot_password_tv)
+        recover_password_tv.setText(Html.fromHtml(getResources().getString(R.string.forgot_password)
                 + "<font color=#FFFFFF>"
                 +" "
                 + getResources().getString(R.string.get_help) + "</font>"));
 
-        signUp_tv.setText(Html.fromHtml(getResources().getString(R.string.already_have_an_account_tv)
+        signUp_tv.setText(Html.fromHtml(getResources().getString(R.string.dont_have_an_account)
                 + "<font color=#FFFFFF>"
                 +" "
-                + getResources().getString(R.string.log_in) + "</font>"));
+                + getResources().getString(R.string.sign_up) + "</font>"));
 
     }
 
@@ -82,6 +82,14 @@ public class SignInFragment extends Fragment implements ISignInView{
             public void onClick(View view) {
                 signInPresenter.showSignUp();
             }});
+
+        recover_password_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInPresenter.showForgotPassword();
+            }
+        });
+
 
     }
 

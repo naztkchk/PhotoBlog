@@ -20,11 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-/**
- * Created by draxvel on 25.02.2018.
- */
 
 public class SignUpFragment extends Fragment{
 
@@ -92,7 +87,7 @@ public class SignUpFragment extends Fragment{
 
         back_to_singIn = root.findViewById(R.id.back_to_signIn);
 
-        back_to_singIn.setText(Html.fromHtml(getResources().getString(R.string.already_have_an_account_tv)
+        back_to_singIn.setText(Html.fromHtml(getResources().getString(R.string.already_have_an_account)
                 + "<font color=#FFFFFF>"
                 +" "
                 + getResources().getString(R.string.log_in) + "</font>"));
