@@ -1,12 +1,9 @@
 package com.draxvel.simpleblog.login.signIn;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.draxvel.simpleblog.MainActivity;
 import com.draxvel.simpleblog.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends Fragment implements ISignInView{
 
     private View root;
+    private SignInPresenter signInPresenter;
 
     private ProgressBar login_pb;
     private EditText email_et;
@@ -35,44 +26,15 @@ public class SignInFragment extends Fragment {
     private TextView signUp_tv;
     private TextView recover_password_tv;
 
-    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_signin, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
         initView();
-
-        log_in_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String email = email_et.getText().toString();
-                String password = password_et.getText().toString();
-
-                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
-                    login_pb.setVisibility(View.VISIBLE);
-
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                showMainAct();
-                            }else {
-                                String e = task.getException().getMessage();
-                                Toast.makeText(getActivity(), e, Toast.LENGTH_SHORT).show();
-                            }
-
-                            login_pb.setVisibility(View.INVISIBLE);
-
-                        }
-                    });
-                }
-
-            }
-        });
+        initPresenter();
+        intiListener();
 
         return root;
     }
@@ -99,17 +61,49 @@ public class SignInFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+    private void initPresenter() {
+        signInPresenter = new SignInPresenter(this, getActivity());
+    }
 
-        if(currentUser !=null){
-            showMainAct();
+    private void intiListener() {
+
+        log_in_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String email = email_et.getText().toString();
+                String password = password_et.getText().toString();
+
+                signInPresenter.auth(email, password);
+            }});
+
+        signUp_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInPresenter.showSignUp();
+            }});
+
+    }
+
+    @Override
+    public void isVisibleProgressBar(boolean s) {
+        if(s){
+            login_pb.setVisibility(View.VISIBLE);
+        }else{
+            login_pb.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void showMainAct(){
-        startActivity(new Intent(getActivity(),MainActivity.class));
-    }
+
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//
+//        if(currentUser !=null){
+//            showMainAct();
+//        }
+//    }
+
 }
