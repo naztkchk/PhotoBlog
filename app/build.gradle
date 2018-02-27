@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:11.8.0'
     implementation 'com.google.firebase:firebase-database:11.8.0'
     implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-firestore:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
 
     // FirebaseUI for Firebase Realtime Database
@@ -49,6 +50,10 @@ dependencies {
 
     //crop image
     compile 'com.theartofdev.edmodo:android-image-cropper:2.6.+'
+
+    //for dowmload image from firebase
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 
 
 
