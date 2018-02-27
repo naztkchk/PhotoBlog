@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.draxvel.simpleblog.SetupActivity">
 
     <android.support.v7.widget.Toolbar
@@ -14,11 +14,50 @@
         android:layout_height="wrap_content">
     </android.support.v7.widget.Toolbar>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/setup_profile_iv"
+    <ProgressBar
+        android:id="@+id/setup_pb"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="100dp"
-        android:src="@mipmap/default_image" />
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/setup_tv" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/setup_profile_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:src="@mipmap/default_image" />
+
+        <EditText
+            android:id="@+id/setup_name_et"
+            android:textAlignment="center"
+            android:layout_marginTop="50dp"
+            android:hint="@string/enter_your_name"
+            android:inputType="textPersonName"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/setup_save_account_settings_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/save_account_settings"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+
+
 
 </android.support.constraint.ConstraintLayout>

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.settings_action:
-                Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, SetupActivity.class));
                 return true;
 
             case R.id.logout_action:
