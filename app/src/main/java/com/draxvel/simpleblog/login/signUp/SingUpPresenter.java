@@ -36,7 +36,7 @@ public class SingUpPresenter implements ISignUpPresenter{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            iLoginView.showMainActivity();
+                            iLoginView.showSetupActivity();
                         }else {
                             String e = task.getException().getMessage();
                             iLoginView.showError(e);
