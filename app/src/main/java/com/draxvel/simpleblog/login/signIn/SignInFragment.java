@@ -92,7 +92,12 @@ public class SignInFragment extends Fragment implements ISignInView{
     }
 
     @Override
-    public void isVisibleProgressBar(boolean s) {
+    public void showError(String e) {
+        //
+    }
+
+    @Override
+    public void setVisibleProgressBar(boolean s) {
         if(s){
             login_pb.setVisibility(View.VISIBLE);
         }else{

@@ -1,11 +1,11 @@
 package com.draxvel.simpleblog.login;
 
-public interface ILoginView {
+import com.draxvel.simpleblog.IView;
+
+public interface ILoginView extends IView{
     void showSignIn();
     void showSignUp();
     void showForgotPassword();
     void showMainActivity();
     void showSetupActivity();
-
-    void showError(final String e);
 }

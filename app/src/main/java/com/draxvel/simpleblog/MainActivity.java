@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 
 import com.draxvel.simpleblog.login.LoginActivity;
+import com.draxvel.simpleblog.settings.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.settings_action:
-                startActivity(new Intent(MainActivity.this, SetupActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                finish();
                 return true;
 
             case R.id.logout_action:

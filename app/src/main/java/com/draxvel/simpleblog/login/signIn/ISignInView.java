@@ -1,5 +1,6 @@
 package com.draxvel.simpleblog.login.signIn;
 
-public interface ISignInView{
-    void isVisibleProgressBar(final boolean s);
+import com.draxvel.simpleblog.IView;
+
+public interface ISignInView extends IView{
 }

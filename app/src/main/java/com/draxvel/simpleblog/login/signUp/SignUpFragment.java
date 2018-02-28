@@ -82,7 +82,12 @@ public class SignUpFragment extends Fragment implements ISignUpView{
     }
 
     @Override
-    public void isVisibleProgressBar(boolean s) {
+    public void showError(String e) {
+        //
+    }
+
+    @Override
+    public void setVisibleProgressBar(boolean s) {
         if(s){
             sign_up_pb.setVisibility(View.VISIBLE);
         }else {

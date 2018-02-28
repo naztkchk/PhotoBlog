@@ -28,7 +28,7 @@ public class SignInPresenter implements ISignInPresenter {
     public void auth(final String email, final String password) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
-            iSignInView.isVisibleProgressBar(true);
+            iSignInView.setVisibleProgressBar(true);
 
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -40,7 +40,7 @@ public class SignInPresenter implements ISignInPresenter {
                         iLoginView.showError(e);
                     }
 
-                    iSignInView.isVisibleProgressBar(false);
+                    iSignInView.setVisibleProgressBar(false);
                 }
             });
         }

@@ -30,7 +30,7 @@ public class SingUpPresenter implements ISignUpPresenter{
 
             if(TextUtils.equals(password, confirm_password)){
 
-                iSignUpView.isVisibleProgressBar(true);
+                iSignUpView.setVisibleProgressBar(true);
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -41,7 +41,7 @@ public class SingUpPresenter implements ISignUpPresenter{
                             String e = task.getException().getMessage();
                             iLoginView.showError(e);
                         }
-                        iSignUpView.isVisibleProgressBar(false);
+                        iSignUpView.setVisibleProgressBar(false);
                     }
                 });
             } else {

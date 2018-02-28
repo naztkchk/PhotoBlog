@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.draxvel.simpleblog.MainActivity;
 import com.draxvel.simpleblog.R;
-import com.draxvel.simpleblog.SetupActivity;
+import com.draxvel.simpleblog.settings.SettingsActivity;
 import com.draxvel.simpleblog.login.signIn.SignInFragment;
 import com.draxvel.simpleblog.login.signUp.SignUpFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,13 +55,18 @@ public class LoginActivity extends AppCompatActivity  implements ILoginView {
 
     @Override
     public void showSetupActivity() {
-        startActivity(new Intent(LoginActivity.this, SetupActivity.class));
+        startActivity(new Intent(LoginActivity.this, SettingsActivity.class));
         finish();
     }
 
     @Override
     public void showError(String e) {
         Toast.makeText(this, e, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setVisibleProgressBar(boolean s) {
+
     }
 
     private void replaceFragment(Fragment fragment){
