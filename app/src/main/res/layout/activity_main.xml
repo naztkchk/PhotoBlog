@@ -20,7 +20,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:clickable="true"
-        app:srcCompat="@mipmap/add_ic"
+        app:srcCompat="@mipmap/add_new_post_ic"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
