@@ -1,10 +1,13 @@
 package com.draxvel.simpleblog.newpost;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -14,9 +17,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
+
+import id.zelory.compressor.Compressor;
 
 public class NewPostPresenter implements INewPostPresenter{
 
@@ -24,11 +32,11 @@ public class NewPostPresenter implements INewPostPresenter{
 
     private Uri mainImageURI = null;
     private String currentUserId;
-    private static final int MAX_LENGTH = 100;
 
     private StorageReference mStorageRef;
     private FirebaseFirestore mFirebaseFirestore;
     private FirebaseAuth mAuth;
+    private Bitmap compressedImageFile;
 
 
     public NewPostPresenter(INewPostView iNewPostView) {
@@ -43,27 +51,7 @@ public class NewPostPresenter implements INewPostPresenter{
     @Override
     public void publishPost(final String desc) {
         if (!TextUtils.isEmpty(desc) && mainImageURI != null) {
-
-            iNewPostView.setVisibleProgressBar(true);
-
-            String randomName = random();
-
-            StorageReference imagePath = mStorageRef.child("post_images").child(randomName + ".jpg");
-            imagePath.putFile(mainImageURI)
-                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                if (task.isSuccessful()) {
-
-                                    storageFirestore(task, desc);
-
-                                } else {
-                                    String e = task.getException().getMessage();
-                                    iNewPostView.showError("image error: " + e);
-                                    iNewPostView.setVisibleProgressBar(false);
-                                }
-                            }
-                        });
+            storageReference(desc, mainImageURI);
         }else {
             iNewPostView.showError("Enter info!");
         }
@@ -73,12 +61,57 @@ public class NewPostPresenter implements INewPostPresenter{
         this.mainImageURI = mainImageURI;
     }
 
-    private void storageFirestore(Task<UploadTask.TaskSnapshot> task, String desc) {
+    private void storageReference(final String desc, final Uri mainImageURI){
+        iNewPostView.setVisibleProgressBar(true);
+        final String randomName = UUID.randomUUID().toString();
 
-        String download_uri = task.getResult().getDownloadUrl().toString();
+        StorageReference imagePath = mStorageRef.child("post_images").child(randomName + ".jpg");
+        imagePath.putFile(mainImageURI)
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            //upload tumb image
+                            UploadTask uploadTask = mStorageRef
+                                    .child("post_images/thumbs")
+                                    .child(randomName+".jpg")
+                                    .putBytes(imageToByteArray(mainImageURI));
+
+                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                                    storageFirestore(task.getResult().getDownloadUrl().toString()
+                                            , taskSnapshot.getDownloadUrl().toString(), desc);
+
+                                }
+
+                                 }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    iNewPostView.showError("uploadTask error: " + e);
+                                    iNewPostView.setVisibleProgressBar(false);
+                                }
+                            });
+
+                            iNewPostView.setVisibleProgressBar(false);
+
+                        } else {
+                            String e = task.getException().getMessage();
+                            iNewPostView.showError("image error: " + e);
+                            iNewPostView.setVisibleProgressBar(false);
+                        }
+                    }
+                });
+    }
+
+    private void storageFirestore(final String image_url, final String thumb_url, String desc) {
 
         Map<String, Object> postMap = new HashMap<>();
-        postMap.put("image_url", download_uri);
+        postMap.put("image_url", image_url);
+        postMap.put("thumb_url", thumb_url);
         postMap.put("desc", desc);
         postMap.put("user_id", currentUserId);
         postMap.put("timestamp", FieldValue.serverTimestamp());
@@ -101,15 +134,20 @@ public class NewPostPresenter implements INewPostPresenter{
         });
     }
 
-    private static String random() {
-        Random generator = new Random();
-        StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(MAX_LENGTH);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
+    private byte[] imageToByteArray(Uri imageURI){
+        File imageFile = new File(imageURI.getPath());
+        try {
+            compressedImageFile = new Compressor(((NewPostActivity)iNewPostView)
+                    .getApplicationContext())
+                    .setMaxHeight(200)
+                    .setMaxWidth(200)
+                    .setQuality(10)
+                    .compressToBitmap(imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return randomStringBuilder.toString();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return  baos.toByteArray();
     }
 }

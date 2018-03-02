@@ -25,10 +25,6 @@ public class NewPostActivity extends AppCompatActivity implements INewPostView{
     private Button new_post_btn;
     private ProgressBar mProgressBar;
 
-    public String getNew_post_et() {
-        return new_post_et.getText().toString();
-    }
-
     private ImagePresenter imagePresenter;
     private NewPostPresenter newPostPresenter;
 
