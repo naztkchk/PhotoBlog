@@ -16,6 +16,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class SettingsPresenter implements ISettingsPresenter{
 

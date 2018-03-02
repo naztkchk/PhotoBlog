@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 import com.draxvel.simpleblog.login.LoginActivity;
+import com.draxvel.simpleblog.newpost.NewPostActivity;
 import com.draxvel.simpleblog.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.settings.image;
+package com.draxvel.simpleblog.imagePicker;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,13 +16,9 @@ public class ImagePresenter{
     private Context context;
     private Activity activity;
 
-    private IImageView iImageView;
-
     public ImagePresenter(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
-
-        this.iImageView = (IImageView) activity;
     }
 
     public void chooseImage() {
@@ -31,8 +27,6 @@ public class ImagePresenter{
 
             if(ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-
-                iImageView.showError("Permission Denied");
 
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
@@ -48,6 +42,7 @@ public class ImagePresenter{
     private void imagePicker() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(51,512)
                 .setAspectRatio(1,1)
                 .start(activity);
     }

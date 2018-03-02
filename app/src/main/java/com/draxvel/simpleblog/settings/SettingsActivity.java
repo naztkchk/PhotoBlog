@@ -1,7 +1,6 @@
 package com.draxvel.simpleblog.settings;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.draxvel.simpleblog.MainActivity;
 import com.draxvel.simpleblog.R;
-import com.draxvel.simpleblog.settings.image.IImageView;
-import com.draxvel.simpleblog.settings.image.ImagePresenter;
+import com.draxvel.simpleblog.imagePicker.IImageView;
+import com.draxvel.simpleblog.imagePicker.ImagePresenter;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity implements ISettingsView
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setup);
+        setContentView(R.layout.activity_settings);
 
         initView();
         initListener();
@@ -95,10 +94,8 @@ public class SettingsActivity extends AppCompatActivity implements ISettingsView
                 settingsPresenter.setProfileChanged(true);
                 photo_iv.setImageURI(result.getUri());
 
-
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-
-               Toast.makeText(this, "Error in request code: "+ result.getError().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                showError("Error in request code: \"+ result.getError().getMessage().toString()");
             }
         }
     }
