@@ -22,6 +22,9 @@
     <string name="get_help">Get help</string>
     <string name="enter_your_name">your name</string>
     <string name="save_account_settings">save account settings</string>
+    <string name="add_new_post">Add new post</string>
+    <string name="add_description">Add description...</string>
+    <string name="post_it">Post it</string>
 
 
 </resources>
