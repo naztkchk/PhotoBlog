@@ -1,6 +1,7 @@
 package com.draxvel.simpleblog;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,12 +14,18 @@ import android.widget.Toast;
 
 import com.draxvel.simpleblog.login.LoginActivity;
 import com.draxvel.simpleblog.settings.SettingsActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar main_tb;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private String currentUserId;
 
     private FloatingActionButton add_post_fab;
 
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
 
         mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         add_post_fab = findViewById(R.id.add_post_fab);
 
@@ -42,6 +50,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        currentUserId = mAuth.getCurrentUser().getUid();
+        firebaseFirestore.collection("Users").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(!task.getResult().exists()){
+                        startSettingsActivity();
+                        finish();
+                    }
+                }else
+                {
+                    String e = task.getException().getMessage();
+                    Toast.makeText(MainActivity.this, e, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -75,5 +106,9 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
+    }
+
+    private void startSettingsActivity(){
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 }
