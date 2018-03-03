@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.login.LoginActivity;
+import com.draxvel.simpleblog.main.fragment.AccountFragment;
+import com.draxvel.simpleblog.main.fragment.HomeFragment;
+import com.draxvel.simpleblog.main.fragment.NotificationFragment;
 import com.draxvel.simpleblog.newpost.NewPostActivity;
 import com.draxvel.simpleblog.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton add_post_fab;
     private BottomNavigationView main_bnv;
 
+    private HomeFragment homeFragment;
+    private NotificationFragment notificationFragment;
+    private AccountFragment accountFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +56,36 @@ public class MainActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         add_post_fab = findViewById(R.id.add_post_fab);
-        main_tb = findViewById(R.id.main_bnv);
+        main_bnv = findViewById(R.id.main_bnv);
+
+
+        //FRAGMENTS
+        homeFragment = new HomeFragment();
+        notificationFragment = new NotificationFragment();
+        accountFragment = new AccountFragment();
+
+
+        main_bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+
+                    case R.id.home_action:
+                    replaceFreagment(homeFragment);
+                    return true;
+
+                    case R.id.notification_action:
+                    replaceFreagment(notificationFragment);
+                    return true;
+
+                    case R.id.account_action:
+                    replaceFreagment(accountFragment);
+                    return true;
+
+                    default:return false;
+                }
+            }
+        });
 
         add_post_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,5 +155,10 @@ public class MainActivity extends AppCompatActivity {
     private void startSettingsActivity(){
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
-    
+
+    private void replaceFreagment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
+    }
 }
