@@ -30,14 +30,14 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".newpost.NewPostActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".main.MainActivity">
         </activity>
 
         <activity android:name=".settings.SettingsActivity">

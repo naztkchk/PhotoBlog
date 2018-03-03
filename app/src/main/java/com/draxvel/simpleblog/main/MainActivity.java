@@ -1,7 +1,8 @@
-package com.draxvel.simpleblog;
+package com.draxvel.simpleblog.main;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.login.LoginActivity;
 import com.draxvel.simpleblog.newpost.NewPostActivity;
 import com.draxvel.simpleblog.settings.SettingsActivity;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentUserId;
 
     private FloatingActionButton add_post_fab;
+    private BottomNavigationView main_bnv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         add_post_fab = findViewById(R.id.add_post_fab);
+        main_tb = findViewById(R.id.main_bnv);
 
         add_post_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,4 +116,5 @@ public class MainActivity extends AppCompatActivity {
     private void startSettingsActivity(){
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
+    
 }

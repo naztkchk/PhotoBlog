@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.draxvel.simpleblog.MainActivity;
+import com.draxvel.simpleblog.main.MainActivity;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.settings.SettingsActivity;
 import com.draxvel.simpleblog.login.signIn.SignInFragment;

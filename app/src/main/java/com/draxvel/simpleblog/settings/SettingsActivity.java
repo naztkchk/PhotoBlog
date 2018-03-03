@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.draxvel.simpleblog.MainActivity;
+import com.draxvel.simpleblog.main.MainActivity;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.imagePicker.IImageView;
 import com.draxvel.simpleblog.imagePicker.ImagePresenter;
