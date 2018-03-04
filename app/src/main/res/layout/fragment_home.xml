@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context="com.draxvel.simpleblog.main.fragment.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="home" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/blog_list_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>
