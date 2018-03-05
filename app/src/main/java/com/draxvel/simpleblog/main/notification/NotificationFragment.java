@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.main.fragment;
+package com.draxvel.simpleblog.main.notification;
 
 
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import com.draxvel.simpleblog.R;
 
-public class HomeFragment extends Fragment {
+public class NotificationFragment extends Fragment {
 
 
-    public HomeFragment() {
+    public NotificationFragment() {
         // Required empty public constructor
     }
 
@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_notification, container, false);
     }
 
 }

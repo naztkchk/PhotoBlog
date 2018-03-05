@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.draxvel.simpleblog.main.MainActivity;
 import com.draxvel.simpleblog.R;
-import com.draxvel.simpleblog.imagePicker.IImageView;
-import com.draxvel.simpleblog.imagePicker.ImagePresenter;
+import com.draxvel.simpleblog.data.imagePicker.IImageView;
+import com.draxvel.simpleblog.data.imagePicker.ImagePresenter;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import de.hdodenhof.circleimageview.CircleImageView;

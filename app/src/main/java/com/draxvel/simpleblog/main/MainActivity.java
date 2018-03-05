@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.login.LoginActivity;
-import com.draxvel.simpleblog.main.fragment.AccountFragment;
-import com.draxvel.simpleblog.main.fragment.HomeFragment;
-import com.draxvel.simpleblog.main.fragment.NotificationFragment;
+import com.draxvel.simpleblog.main.account.AccountFragment;
+import com.draxvel.simpleblog.main.home.HomeFragment;
+import com.draxvel.simpleblog.main.notification.NotificationFragment;
 import com.draxvel.simpleblog.newpost.NewPostActivity;
 import com.draxvel.simpleblog.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;

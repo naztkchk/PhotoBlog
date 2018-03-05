@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.main.fragment;
+package com.draxvel.simpleblog.main.account;
 
 
 import android.os.Bundle;

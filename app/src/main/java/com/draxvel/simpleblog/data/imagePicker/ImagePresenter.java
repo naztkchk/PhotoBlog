@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.imagePicker;
+package com.draxvel.simpleblog.data.imagePicker;
 
 import android.Manifest;
 import android.app.Activity;
