@@ -69,7 +69,7 @@ public class NewPostActivity extends AppCompatActivity implements INewPostView{
 
     private void initPresenter() {
         newPostPresenter = new NewPostPresenter(this);
-        imagePresenter = new ImagePresenter(getApplicationContext(), this);
+        imagePresenter = new ImagePresenter(this);
     }
 
     @Override

@@ -78,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity implements ISettingsView
 
     private void initPresenter() {
         settingsPresenter = new SettingsPresenter(this);
-        imagePresenter = new ImagePresenter(getApplicationContext(), this);
+        imagePresenter = new ImagePresenter(this);
 
     }
 

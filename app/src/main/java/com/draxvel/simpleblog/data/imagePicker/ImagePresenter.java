@@ -2,7 +2,6 @@ package com.draxvel.simpleblog.data.imagePicker;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -13,11 +12,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class ImagePresenter{
 
-    private Context context;
     private Activity activity;
 
-    public ImagePresenter(Context context, Activity activity){
-        this.context = context;
+    public ImagePresenter(Activity activity){
         this.activity = activity;
     }
 
