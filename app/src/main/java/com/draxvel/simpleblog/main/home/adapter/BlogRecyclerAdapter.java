@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.data.model.BlogPost;
+import com.draxvel.simpleblog.util.DateTimeConverter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -58,11 +59,8 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
                 }
             }
         });
-
-        long milisecond = blogPostList.get(position).getTimestamp().getTime();
-        String timeString = DateFormat.format("dd/MM/yyyy", new Date(milisecond)).toString();
-
-        holder.setTime(timeString);
+        
+        holder.setTime(DateTimeConverter.DateToString(blogPostList.get(position).getTimestamp()));
     }
 
     @Override
