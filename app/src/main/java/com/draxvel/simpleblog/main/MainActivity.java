@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         notificationFragment = new NotificationFragment();
         accountFragment = new AccountFragment();
 
+        replaceFreagment(homeFragment);
 
         main_bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
