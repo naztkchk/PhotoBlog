@@ -1,18 +1,33 @@
 package com.draxvel.simpleblog.data.model;
 
-import java.sql.Timestamp;
+
+import java.util.Date;
 
 public class BlogPost {
 
     public String desc, image_url, thumb_url, user_id;
 
+
+    public Date timestamp;
+
     BlogPost(){}
 
-    public BlogPost(String user_id, String image_url, String thumb_url, String desc, Timestamp timestamp) {
+    public BlogPost(String user_id, String image_url, String thumb_url, String desc, Date timestamp) {
         this.user_id = user_id;
         this.image_url = image_url;
         this.thumb_url = thumb_url;
         this.desc = desc;
+        this.timestamp = timestamp;
+
+    }
+
+    public Date getTimestamp() {
+
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getUser_id() {
