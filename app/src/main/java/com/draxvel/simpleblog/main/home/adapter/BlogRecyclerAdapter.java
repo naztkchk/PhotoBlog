@@ -3,6 +3,7 @@ package com.draxvel.simpleblog.main.home.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.List;
 
 public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapter.ViewHolder> {
@@ -57,6 +59,10 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             }
         });
 
+        long milisecond = blogPostList.get(position).getTimestamp().getTime();
+        String timeString = DateFormat.format("dd/MM/yyyy", new Date(milisecond)).toString();
+
+        holder.setTime(timeString);
     }
 
     @Override
@@ -71,8 +77,10 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         private TextView userNameView;
         private ImageView userImageView;
 
-        private TextView descView;
+        private TextView dateView;
+
         private ImageView blogImageView;
+        private TextView descView;
 
 
         public ViewHolder(View itemView) {
@@ -102,6 +110,11 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             Glide.with(context)
                     .load(download_uri)
                     .into(userImageView);
+        }
+
+        public void setTime(String time){
+            dateView = mView.findViewById(R.id.time_tv);
+            dateView.setText(time);
         }
     }
 }
