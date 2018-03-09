@@ -131,9 +131,11 @@ public class SettingsActivity extends AppCompatActivity implements ISettingsView
     public void setVisibleProgressBar(boolean s) {
         if(s){
             mProgressBar.setVisibility(View.VISIBLE);
+            save_btn.setEnabled(false);
         }
         else{
             mProgressBar.setVisibility(View.INVISIBLE);
+            save_btn.setEnabled(true);
         }
     }
 

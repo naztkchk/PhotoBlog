@@ -100,8 +100,10 @@ public class SignInFragment extends Fragment implements ISignInView{
     public void setVisibleProgressBar(boolean s) {
         if(s){
             login_pb.setVisibility(View.VISIBLE);
+            log_in_btn.setEnabled(false);
         }else{
             login_pb.setVisibility(View.INVISIBLE);
+            log_in_btn.setEnabled(true);
         }
     }
 }

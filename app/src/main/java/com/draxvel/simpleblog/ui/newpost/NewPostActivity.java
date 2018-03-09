@@ -98,8 +98,10 @@ public class NewPostActivity extends AppCompatActivity implements INewPostView{
     public void setVisibleProgressBar(boolean s) {
         if(s){
             mProgressBar.setVisibility(View.VISIBLE);
+            new_post_btn.setEnabled(false);
         }else{
             mProgressBar.setVisibility(View.INVISIBLE);
+            new_post_btn.setEnabled(true);
         }
     }
 

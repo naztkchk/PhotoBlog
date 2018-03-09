@@ -90,8 +90,10 @@ public class SignUpFragment extends Fragment implements ISignUpView{
     public void setVisibleProgressBar(boolean s) {
         if(s){
             sign_up_pb.setVisibility(View.VISIBLE);
+            sign_up_btn.setEnabled(false);
         }else {
             sign_up_pb.setVisibility(View.INVISIBLE);
+            sign_up_btn.setEnabled(true);
         }
     }
 
