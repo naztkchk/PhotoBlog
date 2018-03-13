@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.data.model.BlogPost;
 import com.draxvel.simpleblog.util.DateTimeConverter;
@@ -19,6 +20,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapter.ViewHolder> {
 
@@ -53,7 +56,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     holder.setUserName(task.getResult().getString("name"));
-                    holder.setUsermage(task.getResult().getString("image"));
+                    holder.setUserImage(task.getResult().getString("image"));
                 }
             }
         });
@@ -71,7 +74,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         private View mView;
 
         private TextView userNameView;
-        private ImageView userImageView;
+        private CircleImageView userImageView;
 
         private TextView dateView;
 
@@ -101,9 +104,14 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             userNameView.setText(userName);
         }
 
-        public void setUsermage(String download_uri){
+        public void setUserImage(String download_uri){
             userImageView = mView.findViewById(R.id.user_iv);
+
+            RequestOptions placaholderOptions  = new RequestOptions();
+            placaholderOptions.placeholder(R.mipmap.account_ic);
+
             Glide.with(context)
+                    .applyDefaultRequestOptions(placaholderOptions)
                     .load(download_uri)
                     .into(userImageView);
         }
