@@ -47,7 +47,8 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         holder.setDescText(desc_data);
 
         String image_url = blogPostList.get(position).getImage_url();
-        holder.setBlogImage(image_url);
+        String thumb_url = blogPostList.get(position).getThumb_url();
+        holder.setBlogImage(image_url, thumb_url);
 
         String user_id = blogPostList.get(position).getUser_id();
 
@@ -92,11 +93,12 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             descView.setText(text);
         }
 
-        public void setBlogImage(String download_uri){
+        public void setBlogImage(String download_uri, String thumb_url){
             blogImageView = mView.findViewById(R.id.imageView);
             Glide.with(context)
                     .load(download_uri)
-                    .into(blogImageView);
+                    .thumbnail(Glide.with(context).load(thumb_url))
+                            .into(blogImageView);
         }
 
         public void setUserName(String userName){
