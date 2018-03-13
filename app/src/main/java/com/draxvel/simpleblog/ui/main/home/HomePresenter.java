@@ -1,5 +1,7 @@
 package com.draxvel.simpleblog.ui.main.home;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.draxvel.simpleblog.data.model.BlogPost;
@@ -18,6 +20,7 @@ import java.util.List;
 public class HomePresenter {
 
     private IHomeView iHomeView;
+    private Activity mActivity;
 
     private FirebaseFirestore firebaseFirestore;
 
@@ -26,10 +29,12 @@ public class HomePresenter {
 
     private BlogRecyclerAdapter blogRecyclerAdapter;
 
+    private boolean isFirstPageFirstLoad = true;
 
-    HomePresenter(IHomeView iHomeView){
+    HomePresenter(IHomeView iHomeView, Activity activity){
 
         this.iHomeView = iHomeView;
+        this.mActivity = activity;
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -44,11 +49,13 @@ public class HomePresenter {
 
          Query firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
 
-         firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+         firstQuery.addSnapshotListener(mActivity, new EventListener<QuerySnapshot>() {
              @Override
              public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-                 lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size()-1);
+                 if(isFirstPageFirstLoad){
+                     lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size()-1);
+                 }
 
                  if(!documentSnapshots.isEmpty()){
 
@@ -56,11 +63,20 @@ public class HomePresenter {
                          if(doc.getType() == DocumentChange.Type.ADDED){
 
                              BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
-                             blogPostList.add(blogPost);
+                             if(isFirstPageFirstLoad){
+
+                                 blogPostList.add(blogPost);
+
+                             }else
+                             {
+                                 blogPostList.add(0, blogPost);
+                             }
 
                              blogRecyclerAdapter.notifyDataSetChanged();
 
                          }
+
+                         isFirstPageFirstLoad = false;
                      }
                  }else {
                      Log.i("Home", "doc = null");
@@ -77,7 +93,7 @@ public class HomePresenter {
                  .startAfter(lastVisible)
                  .limit(3);
 
-         nextQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+         nextQuery.addSnapshotListener(mActivity, new EventListener<QuerySnapshot>() {
              @Override
              public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 

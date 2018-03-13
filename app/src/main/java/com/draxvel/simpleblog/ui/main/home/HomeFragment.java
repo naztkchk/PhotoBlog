@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment implements IHomeView{
     }
 
     private void initPresenter() {
-        homePresenter = new HomePresenter(this);
+        homePresenter = new HomePresenter(this, getActivity());
     }
 
 
