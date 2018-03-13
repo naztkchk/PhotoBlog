@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.ui.main.home.adapter.BlogRecyclerAdapter;
@@ -27,6 +28,19 @@ public class HomeFragment extends Fragment implements IHomeView{
 
         homePresenter.setData();
 
+        blog_list_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Boolean reachedBottom  = !recyclerView.canScrollVertically(1);
+
+                if(reachedBottom){
+                    Toast.makeText(root.getContext(), "Last post! Load more...", Toast.LENGTH_SHORT).show();
+                    homePresenter.loadMorePost();
+                }
+            }
+        });
         return root;
     }
 
