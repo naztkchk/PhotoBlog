@@ -85,7 +85,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <ImageView
-                android:id="@+id/fav_iv"
+                android:id="@+id/like_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -105,7 +105,7 @@
                 android:layout_marginTop="8dp"
                 android:text="0"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fav_iv"
+                app:layout_constraintStart_toEndOf="@+id/like_iv"
                 app:layout_constraintTop_toBottomOf="@+id/desc_tv" />
 
         </android.support.constraint.ConstraintLayout>

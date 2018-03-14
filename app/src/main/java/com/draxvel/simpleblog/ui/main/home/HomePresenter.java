@@ -62,6 +62,8 @@ public class HomePresenter {
                      for(DocumentChange doc: documentSnapshots.getDocumentChanges()) {
                          if(doc.getType() == DocumentChange.Type.ADDED){
 
+                             String blogPostId = doc.getDocument().getId();
+
                              BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
                              if(isFirstPageFirstLoad){
 
