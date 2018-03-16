@@ -87,64 +87,50 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
 
         holder.setTime(DateTimeConverter.DateToString(blogPostList.get(position).getTimestamp()));
 
-        setLikeCount(holder.like_count_iv, blogPostId);
+
+        //real time check like exist
+        firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
+                .document(currentUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+
+                if(documentSnapshot.exists()){
+                    holder.like_iv.setImageResource(R.mipmap.fav_accent_ico);
+                }
+                else{
+                    holder.like_iv.setImageResource(R.mipmap.fav_ico);
+                }
+            }
+        });
+
 
         holder.like_iv.setOnClickListener(new View.OnClickListener() {
             @Override
              public void onClick(View v) {
 
-                if(holder.like_iv.getTag().equals("dislike"))
-                {
-                    Map<String, Object> likeMap = new HashMap<>();
-                    likeMap.put("timestamp", FieldValue.serverTimestamp());
+                firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
+                        .document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(!task.getResult().exists()){
 
-                    firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                            .document(currentUserId).set(likeMap);
+                            Map<String, Object> likeMap = new HashMap<>();
+                            likeMap.put("timestamp", FieldValue.serverTimestamp());
 
-                    holder.like_iv.setImageResource(R.mipmap.fav_accent_ico);
-                    holder.like_iv.setTag("like");
+                            firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
+                                    .document(currentUserId).set(likeMap);
 
+                        }else{
 
-
-                    Log.i("logg", "hitLike");
-
-                }else
-                {
-                    firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                                      .document(currentUserId).delete();
-                    holder.like_iv.setImageResource(R.mipmap.fav_ico);
-                    holder.like_iv.setTag("dislike");
-
-
-                    Log.i("logg", "unlike");
-                }
-
-                setLikeCount(holder.like_count_iv, blogPostId);
-
+                            firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
+                                    .document(currentUserId).delete();
+                        }
+                    }
+                });
             }
          });
     }
 
-    private void setLikeCount(final TextView view, final String blogPostId) {
-        firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int count = 0;
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                count++;
-                            }
-
-                        } else {
-                            Log.d("logg", "Error getting documents: ", task.getException());
-                        }
-
-                        view.setText(String.valueOf(count));
-                    }
-                });
-    }
 
     @Override
     public int getItemCount() {
