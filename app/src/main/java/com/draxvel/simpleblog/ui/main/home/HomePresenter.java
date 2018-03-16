@@ -64,7 +64,7 @@ public class HomePresenter {
 
                              String blogPostId = doc.getDocument().getId();
 
-                             BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
+                             BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
                              if(isFirstPageFirstLoad){
 
                                  blogPostList.add(blogPost);
@@ -106,7 +106,9 @@ public class HomePresenter {
                      for(DocumentChange doc: documentSnapshots.getDocumentChanges()) {
                          if(doc.getType() == DocumentChange.Type.ADDED){
 
-                             BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
+                             String blogPostId = doc.getDocument().getId();
+
+                             BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
                              blogPostList.add(blogPost);
 
                              blogRecyclerAdapter.notifyDataSetChanged();

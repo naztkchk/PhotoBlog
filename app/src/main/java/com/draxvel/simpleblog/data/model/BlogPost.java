@@ -3,7 +3,7 @@ package com.draxvel.simpleblog.data.model;
 
 import java.util.Date;
 
-public class BlogPost {
+public class BlogPost  extends  BlogPostId{
 
     public String desc, image_url, thumb_url, user_id;
 
