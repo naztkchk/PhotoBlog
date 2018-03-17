@@ -1,5 +1,6 @@
 package com.draxvel.simpleblog.ui.main.home.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.data.model.BlogPost;
+import com.draxvel.simpleblog.ui.main.MainActivity;
+import com.draxvel.simpleblog.ui.main.home.HomeFragment;
 import com.draxvel.simpleblog.util.DateTimeConverter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,11 +46,13 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
 
     public List<BlogPost> blogPostList;
     public Context context;
+    public Activity activity;
 
     FirebaseFirestore firebaseFirestore;
 
-    public BlogRecyclerAdapter(List<BlogPost> blogPostList){
+    public BlogRecyclerAdapter(List<BlogPost> blogPostList, Activity activity){
         this.blogPostList = blogPostList;
+        this.activity = activity;
     }
     @NonNull
     @Override
@@ -90,7 +95,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
 
         //real time check like exist
         firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                .document(currentUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .document(currentUserId).addSnapshotListener(activity, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
 
@@ -99,6 +104,22 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
                 }
                 else{
                     holder.like_iv.setImageResource(R.mipmap.fav_ico);
+                }
+            }
+        });
+
+
+        //real time likes count
+        firebaseFirestore.collection("Posts/"+blogPostId+"/likes").addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if(!documentSnapshots.isEmpty()){
+
+                    int count  = documentSnapshots.size();
+                    holder.updateLikeCount(count);
+
+                }else{
+                    holder.updateLikeCount(0);
                 }
             }
         });
@@ -194,6 +215,11 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         public void setTime(String time){
             dateView = mView.findViewById(R.id.time_tv);
             dateView.setText(time);
+        }
+
+        public void updateLikeCount(int count){
+            like_count_iv = mView.findViewById(R.id.like_count_tv);
+            like_count_iv.setText(count+ "likes");
         }
     }
 }

@@ -40,7 +40,7 @@ public class HomePresenter {
 
         blogPostList = new ArrayList<>();
 
-        blogRecyclerAdapter = new BlogRecyclerAdapter(blogPostList);
+        blogRecyclerAdapter = new BlogRecyclerAdapter(blogPostList, activity);
 
         iHomeView.setAdapter(blogRecyclerAdapter);
     }
