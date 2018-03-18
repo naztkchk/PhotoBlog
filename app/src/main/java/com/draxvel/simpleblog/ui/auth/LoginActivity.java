@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.draxvel.simpleblog.data.Auth;
+import com.draxvel.simpleblog.data.source.auth.Auth;
 import com.draxvel.simpleblog.ui.main.MainActivity;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.ui.settings.SettingsActivity;
@@ -16,7 +16,6 @@ import com.draxvel.simpleblog.ui.auth.signUp.SignUpFragment;
 
 public class LoginActivity extends AppCompatActivity  implements ILoginView {
 
-    private Auth auth;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +26,7 @@ public class LoginActivity extends AppCompatActivity  implements ILoginView {
     protected void onStart() {
         super.onStart();
 
-        auth = new Auth();
+        Auth auth = new Auth();
 
         if(auth.isSignIn()){
             showMainActivity();

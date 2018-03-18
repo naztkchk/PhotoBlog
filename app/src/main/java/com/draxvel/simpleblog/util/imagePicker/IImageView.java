@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.data.imagePicker;
+package com.draxvel.simpleblog.util.imagePicker;
 
 public interface IImageView {
     void showError (final String e);

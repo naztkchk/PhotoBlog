@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.draxvel.simpleblog.ui.main.MainActivity;
 import com.draxvel.simpleblog.R;
-import com.draxvel.simpleblog.data.imagePicker.ImagePresenter;
+import com.draxvel.simpleblog.util.imagePicker.ImagePresenter;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 public class NewPostActivity extends AppCompatActivity implements INewPostView{

@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.data;
+package com.draxvel.simpleblog.data.source.auth;
 
 public interface IAuth {
 

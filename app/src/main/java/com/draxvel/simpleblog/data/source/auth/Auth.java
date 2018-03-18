@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.data;
+package com.draxvel.simpleblog.data.source.auth;
 
 import android.support.annotation.NonNull;
 
@@ -8,7 +8,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Auth implements IAuth{
+public class Auth implements IAuth {
 
     private FirebaseAuth firebaseAuth;
 

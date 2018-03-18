@@ -3,8 +3,8 @@ package com.draxvel.simpleblog.ui.auth.signUp;
 import android.app.Activity;
 import android.text.TextUtils;
 
-import com.draxvel.simpleblog.data.Auth;
-import com.draxvel.simpleblog.data.IAuth;
+import com.draxvel.simpleblog.data.source.auth.Auth;
+import com.draxvel.simpleblog.data.source.auth.IAuth;
 import com.draxvel.simpleblog.ui.auth.ILoginView;
 
 public class SingUpPresenter implements ISignUpPresenter{
