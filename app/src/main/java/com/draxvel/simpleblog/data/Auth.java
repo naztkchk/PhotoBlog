@@ -19,11 +19,7 @@ public class Auth implements IAuth{
     @Override
     public boolean isSignIn() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if(currentUser.equals(null)){
-            return false;
-        } else {
-            return true;
-        }
+        return currentUser != null;
     }
 
     @Override
