@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Auth implements IAuth{
 
@@ -13,6 +14,16 @@ public class Auth implements IAuth{
 
     public Auth() {
         this.firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public boolean isSignIn() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser.equals(null)){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override

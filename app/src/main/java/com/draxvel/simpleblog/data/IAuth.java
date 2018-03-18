@@ -16,6 +16,8 @@ public interface IAuth {
         void onFailure(final String msg);
     }
 
+    boolean isSignIn();
+
     void signIn (final String email, final String password, SignInCallback callback);
 
     void signUp (final String email, final String password, SignUpCallback callback);

@@ -7,15 +7,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.draxvel.simpleblog.data.Auth;
 import com.draxvel.simpleblog.ui.main.MainActivity;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.ui.settings.SettingsActivity;
 import com.draxvel.simpleblog.ui.auth.signIn.SignInFragment;
 import com.draxvel.simpleblog.ui.auth.signUp.SignUpFragment;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity  implements ILoginView {
+
+    private Auth auth;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +26,14 @@ public class LoginActivity extends AppCompatActivity  implements ILoginView {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser == null){
+
+        auth = new Auth();
+
+        if(auth.isSignIn()){
+            showMainActivity();
+        }else{
             replaceFragment(new SignInFragment());
         }
-        else showMainActivity();
     }
 
     @Override
