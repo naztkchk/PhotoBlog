@@ -1,46 +1,43 @@
 package com.draxvel.simpleblog.ui.login.signIn;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.draxvel.simpleblog.data.Auth;
+import com.draxvel.simpleblog.data.IAuth;
 import com.draxvel.simpleblog.ui.login.ILoginView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInPresenter implements ISignInPresenter {
 
     private ISignInView iSignInView;
     private ILoginView iLoginView;
 
-    private FirebaseAuth mAuth;
+    private Auth mAuth;
 
     public SignInPresenter(ISignInView iSignInView, Activity activity) {
         this.iSignInView = iSignInView;
         this.iLoginView = (ILoginView) activity;
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = new Auth();
     }
 
-
     public void auth(final String email, final String password) {
+
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             iSignInView.setVisibleProgressBar(true);
 
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.signIn(email, password, new IAuth.SignInCallback() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        iLoginView.showMainActivity();
-                    } else {
-                        String e = task.getException().getMessage();
-                        iLoginView.showError(e);
-                    }
-
+                public void onSignIn() {
                     iSignInView.setVisibleProgressBar(false);
+                    iLoginView.showMainActivity();
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    iSignInView.setVisibleProgressBar(false);
+                    iLoginView.showError(msg);
                 }
             });
         }
