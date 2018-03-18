@@ -33,7 +33,19 @@ public class Auth implements IAuth{
     }
 
     @Override
-    public void signUp(SignUpCallback callback) {
+    public void signUp(final String email, final String password, final SignUpCallback callback) {
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    callback.onSignUp();
+                } else {
+                    String e = task.getException().getMessage();
+                    callback.onFailure(e);
+                }
+            }
+        });
 
     }
 }

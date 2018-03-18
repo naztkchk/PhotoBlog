@@ -1,27 +1,24 @@
 package com.draxvel.simpleblog.ui.auth.signUp;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.draxvel.simpleblog.data.Auth;
+import com.draxvel.simpleblog.data.IAuth;
 import com.draxvel.simpleblog.ui.auth.ILoginView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SingUpPresenter implements ISignUpPresenter{
 
     private ISignUpView iSignUpView;
     private ILoginView iLoginView;
 
-    private FirebaseAuth mAuth;
+    private Auth mAuth;
 
     public SingUpPresenter(final ISignUpView iSignUpView, Activity activity){
         this.iSignUpView = iSignUpView;
         this.iLoginView = (ILoginView) activity;
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = new Auth();
     }
 
     @Override
@@ -32,18 +29,20 @@ public class SingUpPresenter implements ISignUpPresenter{
 
                 iSignUpView.setVisibleProgressBar(true);
 
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signUp(email, password, new IAuth.SignUpCallback() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            iLoginView.showSetupActivity();
-                        }else {
-                            String e = task.getException().getMessage();
-                            iLoginView.showError(e);
-                        }
+                    public void onSignUp() {
                         iSignUpView.setVisibleProgressBar(false);
+                        iLoginView.showSetupActivity();
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        iSignUpView.setVisibleProgressBar(false);
+                        iLoginView.showError(msg);
                     }
                 });
+
             } else {
                 iSignUpView.passwordsDoesntMatch();
             }
