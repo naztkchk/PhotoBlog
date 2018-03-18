@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 import com.draxvel.simpleblog.R;
-import com.draxvel.simpleblog.ui.login.LoginActivity;
+import com.draxvel.simpleblog.ui.auth.LoginActivity;
 import com.draxvel.simpleblog.ui.main.account.AccountFragment;
 import com.draxvel.simpleblog.ui.main.home.HomeFragment;
 import com.draxvel.simpleblog.ui.main.notification.NotificationFragment;

@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.ui.login;
+package com.draxvel.simpleblog.ui.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,8 @@ import android.widget.Toast;
 import com.draxvel.simpleblog.ui.main.MainActivity;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.ui.settings.SettingsActivity;
-import com.draxvel.simpleblog.ui.login.signIn.SignInFragment;
-import com.draxvel.simpleblog.ui.login.signUp.SignUpFragment;
+import com.draxvel.simpleblog.ui.auth.signIn.SignInFragment;
+import com.draxvel.simpleblog.ui.auth.signUp.SignUpFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

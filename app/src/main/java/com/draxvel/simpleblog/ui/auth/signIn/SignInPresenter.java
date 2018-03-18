@@ -1,11 +1,11 @@
-package com.draxvel.simpleblog.ui.login.signIn;
+package com.draxvel.simpleblog.ui.auth.signIn;
 
 import android.app.Activity;
 import android.text.TextUtils;
 
 import com.draxvel.simpleblog.data.Auth;
 import com.draxvel.simpleblog.data.IAuth;
-import com.draxvel.simpleblog.ui.login.ILoginView;
+import com.draxvel.simpleblog.ui.auth.ILoginView;
 
 public class SignInPresenter implements ISignInPresenter {
 

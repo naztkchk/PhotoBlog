@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.ui.login;
+package com.draxvel.simpleblog.ui.auth;
 
 import com.draxvel.simpleblog.ui.IView;
 

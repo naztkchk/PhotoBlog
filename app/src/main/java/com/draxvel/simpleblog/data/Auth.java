@@ -34,6 +34,6 @@ public class Auth implements IAuth{
 
     @Override
     public void signUp(SignUpCallback callback) {
-        
+
     }
 }

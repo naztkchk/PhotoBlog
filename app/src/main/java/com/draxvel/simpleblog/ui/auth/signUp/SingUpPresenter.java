@@ -1,10 +1,10 @@
-package com.draxvel.simpleblog.ui.login.signUp;
+package com.draxvel.simpleblog.ui.auth.signUp;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.draxvel.simpleblog.ui.login.ILoginView;
+import com.draxvel.simpleblog.ui.auth.ILoginView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

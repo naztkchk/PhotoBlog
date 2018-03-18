@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.ui.login.signUp;
+package com.draxvel.simpleblog.ui.auth.signUp;
 
 import com.draxvel.simpleblog.ui.IView;
 

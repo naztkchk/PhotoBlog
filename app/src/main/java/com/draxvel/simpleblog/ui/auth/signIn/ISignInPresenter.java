@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.ui.login.signIn;
+package com.draxvel.simpleblog.ui.auth.signIn;
 
 public interface ISignInPresenter {
     void auth(final String email, final String password);

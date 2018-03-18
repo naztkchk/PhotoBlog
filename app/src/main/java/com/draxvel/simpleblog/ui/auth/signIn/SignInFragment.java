@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.ui.login.signIn;
+package com.draxvel.simpleblog.ui.auth.signIn;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
