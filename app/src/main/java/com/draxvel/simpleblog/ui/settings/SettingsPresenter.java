@@ -35,9 +35,6 @@ public class SettingsPresenter implements ISettingsPresenter{
     }
 
     private void loadStoredInfo() {
-
-        Log.i("sss", "loadStoredInfo");
-
         iSettingsView.setVisibleProgressBar(true);
 
         users.loadCurrentUser(new IUsers.LoadCurrentUserCallback() {
@@ -51,9 +48,6 @@ public class SettingsPresenter implements ISettingsPresenter{
 
                 iSettingsView.setVisibleProgressBar(false);
                 iSettingsView.setEnabledSaveBtn(true);
-
-                Log.i("sss", "OnUploaded");
-
             }
 
             @Override
@@ -68,9 +62,6 @@ public class SettingsPresenter implements ISettingsPresenter{
 
     @Override
     public void updateInfo(final String userName) {
-
-        Log.i("sss", "updateInfo");
-
 
         if (!TextUtils.isEmpty(userName) && mainImageURI != null) {
             iSettingsView.setVisibleProgressBar(true);
@@ -101,8 +92,6 @@ public class SettingsPresenter implements ISettingsPresenter{
 
 
     private void  updateCurrentUser(String imageUrl, String userName){
-
-        Log.i("sss", "updateCurrentUser");
 
         users.updateCurrentUser(imageUrl, userName, new IUsers.UpdateCurrentUserCallback() {
             @Override
