@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         notificationFragment = new NotificationFragment();
         accountFragment = new AccountFragment();
 
-        replaceFreagment(homeFragment);
+        replaceFragment(homeFragment);
 
         main_bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
 
                     case R.id.home_action:
-                    replaceFreagment(homeFragment);
+                    replaceFragment(homeFragment);
                     return true;
 
                     case R.id.notification_action:
-                    replaceFreagment(notificationFragment);
+                    replaceFragment(notificationFragment);
                     return true;
 
                     case R.id.account_action:
-                    replaceFreagment(accountFragment);
+                    replaceFragment(accountFragment);
                     return true;
 
                     default:return false;
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 
-    private void replaceFreagment(Fragment fragment){
+    private void replaceFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
