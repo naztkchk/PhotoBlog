@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,6 +130,8 @@ public class SettingsActivity extends AppCompatActivity implements ISettingsView
 
     @Override
     public void setVisibleProgressBar(boolean s) {
+
+        Log.i("sss", "setVisibleProgressBar");
         if(s){
             mProgressBar.setVisibility(View.VISIBLE);
             save_btn.setEnabled(false);
