@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 
 import com.draxvel.simpleblog.R;
+import com.draxvel.simpleblog.data.source.auth.Auth;
 import com.draxvel.simpleblog.data.source.usersData.IUsers;
 import com.draxvel.simpleblog.data.source.usersData.Users;
 import com.draxvel.simpleblog.ui.auth.LoginActivity;
@@ -128,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        mAuth.signOut();
+        Auth auth = new Auth();
+        auth.signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }

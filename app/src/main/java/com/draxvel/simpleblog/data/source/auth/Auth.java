@@ -55,4 +55,9 @@ public class Auth implements IAuth {
         });
 
     }
+
+    @Override
+    public void signOut() {
+        firebaseAuth.signOut();
+    }
 }

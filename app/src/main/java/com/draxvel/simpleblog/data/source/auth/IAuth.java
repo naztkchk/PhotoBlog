@@ -21,4 +21,6 @@ public interface IAuth {
     void signIn (final String email, final String password, SignInCallback callback);
 
     void signUp (final String email, final String password, SignUpCallback callback);
+
+    void signOut();
 }
