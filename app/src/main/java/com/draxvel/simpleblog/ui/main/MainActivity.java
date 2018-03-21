@@ -16,24 +16,18 @@ import android.widget.Toast;
 
 
 import com.draxvel.simpleblog.R;
+import com.draxvel.simpleblog.data.source.usersData.IUsers;
+import com.draxvel.simpleblog.data.source.usersData.Users;
 import com.draxvel.simpleblog.ui.auth.LoginActivity;
 import com.draxvel.simpleblog.ui.main.account.AccountFragment;
 import com.draxvel.simpleblog.ui.main.home.HomeFragment;
 import com.draxvel.simpleblog.ui.main.notification.NotificationFragment;
 import com.draxvel.simpleblog.ui.newpost.NewPostActivity;
 import com.draxvel.simpleblog.ui.settings.SettingsActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar main_tb;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore firebaseFirestore;
-    private String currentUserId;
 
     private FloatingActionButton add_post_fab;
     private BottomNavigationView main_bnv;
@@ -41,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private NotificationFragment notificationFragment;
     private AccountFragment accountFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
         main_tb = findViewById(R.id.main_tb);
         setSupportActionBar(main_tb);
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-
-        mAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
 
         add_post_fab = findViewById(R.id.add_post_fab);
         main_bnv = findViewById(R.id.main_bnv);
@@ -100,22 +90,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        currentUserId = mAuth.getCurrentUser().getUid();
-        firebaseFirestore.collection("Users").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Users users = new Users();
+        users.isCurrentUserExists(new IUsers.CurrentUserExistsCallback() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    if(!task.getResult().exists()){
-                        startSettingsActivity();
-                        finish();
-                    }
-                }else
-                {
-                    String e = task.getException().getMessage();
-                    Toast.makeText(MainActivity.this, e, Toast.LENGTH_SHORT).show();
-                }
-
+            public void onNotExists() {
+                startSettingsActivity();
+                finish();
             }
         });
     }
