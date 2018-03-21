@@ -1,18 +1,11 @@
 package com.draxvel.simpleblog.ui.main.home;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 import com.draxvel.simpleblog.data.model.BlogPost;
+import com.draxvel.simpleblog.data.source.postsData.IPosts;
+import com.draxvel.simpleblog.data.source.postsData.Posts;
 import com.draxvel.simpleblog.ui.main.home.adapter.BlogRecyclerAdapter;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,21 +15,16 @@ public class HomePresenter {
     private IHomeView iHomeView;
     private Activity mActivity;
 
-    private FirebaseFirestore firebaseFirestore;
+    private Posts posts;
 
-    private DocumentSnapshot lastVisible;
     private List<BlogPost> blogPostList;
 
     private BlogRecyclerAdapter blogRecyclerAdapter;
-
-    private boolean isFirstPageFirstLoad = true;
 
     HomePresenter(IHomeView iHomeView, Activity activity){
 
         this.iHomeView = iHomeView;
         this.mActivity = activity;
-
-        firebaseFirestore = FirebaseFirestore.getInstance();
 
         blogPostList = new ArrayList<>();
 
@@ -47,78 +35,28 @@ public class HomePresenter {
 
      public void setData(){
 
-         Query firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
+        posts = new Posts();
+        posts.updateFeed(mActivity, new IPosts.UpdateFeedCallBack() {
+            @Override
+            public void OnUpdate(BlogPost blogPost, boolean isFirst) {
+                if(isFirst)
+                    blogPostList.add(0, blogPost);
+                else blogPostList.add(blogPost);
 
-         firstQuery.addSnapshotListener(mActivity, new EventListener<QuerySnapshot>() {
-             @Override
-             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                blogRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
 
-                 if(isFirstPageFirstLoad){
-                     lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size()-1);
-                 }
-
-                 if(!documentSnapshots.isEmpty()){
-
-                     for(DocumentChange doc: documentSnapshots.getDocumentChanges()) {
-                         if(doc.getType() == DocumentChange.Type.ADDED){
-
-                             String blogPostId = doc.getDocument().getId();
-
-                             BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
-                             if(isFirstPageFirstLoad){
-
-                                 blogPostList.add(blogPost);
-
-                             }else
-                             {
-                                 blogPostList.add(0, blogPost);
-                             }
-
-                             blogRecyclerAdapter.notifyDataSetChanged();
-
-                         }
-
-                         isFirstPageFirstLoad = false;
-                     }
-                 }else {
-                     Log.i("Home", "doc = null");
-                 }
-
-             }
-         });
      }
 
-     public void loadMorePost(){
+     public void loadMorePost() {
 
-         Query nextQuery = firebaseFirestore.collection("Posts")
-                 .orderBy("timestamp", Query.Direction.DESCENDING)
-                 .startAfter(lastVisible)
-                 .limit(3);
-
-         nextQuery.addSnapshotListener(mActivity, new EventListener<QuerySnapshot>() {
+         posts = new Posts();
+         posts.loadMorePost(mActivity, new IPosts.LoadMorePostsCallBack() {
              @Override
-             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-
-                 if(!documentSnapshots.isEmpty()){
-
-                     lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size()-1);
-
-                     for(DocumentChange doc: documentSnapshots.getDocumentChanges()) {
-                         if(doc.getType() == DocumentChange.Type.ADDED){
-
-                             String blogPostId = doc.getDocument().getId();
-
-                             BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
-                             blogPostList.add(blogPost);
-
-                             blogRecyclerAdapter.notifyDataSetChanged();
-
-                         }
-                     }
-                 }else {
-                     Log.i("Home", "doc = null");
-                 }
-
+             public void OnLoad(final BlogPost blogPost) {
+                 blogPostList.add(blogPost);
+                 blogRecyclerAdapter.notifyDataSetChanged();
              }
          });
      }
