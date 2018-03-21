@@ -3,6 +3,7 @@ package com.draxvel.simpleblog.data.source.postsData;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.draxvel.simpleblog.data.model.BlogPost;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -110,6 +111,7 @@ public class Posts implements IPosts{
 
                 if(isFirstPageFirstLoad){
                     lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size()-1);
+                    Log.i("sss", lastVisible.getString("desc"));
                 }
 
                 if(!documentSnapshots.isEmpty()){
@@ -129,13 +131,15 @@ public class Posts implements IPosts{
                         }
                         isFirstPageFirstLoad = false;
                     }
-                }
+                }else Log.i("sss", "doc = nullupdateFeed");
             }
         });
     }
 
     @Override
     public void loadMorePost(Activity activity, final LoadMorePostsCallBack loadMorePostsCallBack) {
+
+        Log.i("sss1", lastVisible.getString("desc"));
 
         Query nextQuery = FirebaseFirestore.getInstance().collection("Posts")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -160,7 +164,7 @@ public class Posts implements IPosts{
                             loadMorePostsCallBack.OnLoad(blogPost);
                         }
                     }
-                }
+                }else Log.i("sss", "doc = null");
             }
         });
     }

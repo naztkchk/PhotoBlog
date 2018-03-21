@@ -26,7 +26,10 @@ public class HomePresenter {
         this.iHomeView = iHomeView;
         this.mActivity = activity;
 
+        posts = new Posts();
+
         blogPostList = new ArrayList<>();
+
 
         blogRecyclerAdapter = new BlogRecyclerAdapter(blogPostList, activity);
 
@@ -35,7 +38,6 @@ public class HomePresenter {
 
      public void setData(){
 
-        posts = new Posts();
         posts.updateFeed(mActivity, new IPosts.UpdateFeedCallBack() {
             @Override
             public void OnUpdate(BlogPost blogPost, boolean isFirst) {
@@ -51,7 +53,6 @@ public class HomePresenter {
 
      public void loadMorePost() {
 
-         posts = new Posts();
          posts.loadMorePost(mActivity, new IPosts.LoadMorePostsCallBack() {
              @Override
              public void OnLoad(final BlogPost blogPost) {
