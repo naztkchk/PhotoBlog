@@ -12,17 +12,21 @@ public interface IUsers {
 
     interface LoadCurrentUserCallback{
 
-        void OnUploaded(String name, String image);
+        void OnUploaded(final String name, final String image);
         void onFailure(final String msg);
     }
     void loadCurrentUser(LoadCurrentUserCallback loadCurrentUserCallback);
-
 
     interface UpdateCurrentUserCallback{
         void onUploaded();
         void onFailure(final String msg);
     }
     void updateCurrentUser(String imageUrl, String userName, UpdateCurrentUserCallback updateCurrentUserCallback);
+
+    interface GetUserByIdCallBack{
+        void onGet(final String name, final String image);
+    }
+    void getUserById(final String userId, GetUserByIdCallBack getUserByIdCallBack);
 
 
     interface SaveNewProfileImageCallback{

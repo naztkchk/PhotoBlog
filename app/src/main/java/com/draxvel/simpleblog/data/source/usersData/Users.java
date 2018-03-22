@@ -17,7 +17,7 @@ import java.util.Map;
 public class Users implements IUsers{
 
     @Override
-    public void isCurrentUserExists(final CurrentUserExistsCallback currentUserExistsCallback) {
+    public void isCurrentUserExists(final IUsers.CurrentUserExistsCallback currentUserExistsCallback) {
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -84,6 +84,20 @@ public class Users implements IUsers{
                 } else {
                     String e = task.getException().getMessage();
                     updateCurrentUserCallback.onFailure(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getUserById(String userId, final GetUserByIdCallBack getUserByIdCallBack) {
+        FirebaseFirestore.getInstance().collection("Users").
+                document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    getUserByIdCallBack.onGet(task.getResult().getString("name"),
+                            task.getResult().getString("image"));
                 }
             }
         });

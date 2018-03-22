@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,30 +14,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.draxvel.simpleblog.R;
 import com.draxvel.simpleblog.data.model.BlogPost;
-import com.draxvel.simpleblog.ui.main.MainActivity;
-import com.draxvel.simpleblog.ui.main.home.HomeFragment;
+import com.draxvel.simpleblog.data.source.likesData.ILikes;
+import com.draxvel.simpleblog.data.source.likesData.Likes;
+import com.draxvel.simpleblog.data.source.usersData.IUsers;
+import com.draxvel.simpleblog.data.source.usersData.Users;
 import com.draxvel.simpleblog.util.DateTimeConverter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,8 +29,8 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
     public List<BlogPost> blogPostList;
     public Context context;
     public Activity activity;
-
-    FirebaseFirestore firebaseFirestore;
+    private Users users;
+    private Likes likes;
 
     public BlogRecyclerAdapter(List<BlogPost> blogPostList, Activity activity){
         this.blogPostList = blogPostList;
@@ -61,7 +43,6 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
                 .inflate(R.layout.blog_list_item, parent, false);
 
         context = parent.getContext();
-        firebaseFirestore = FirebaseFirestore.getInstance();
         return new ViewHolder(view);
     }
 
@@ -69,24 +50,21 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         final String blogPostId = blogPostList.get(position).BlogPostId;
-        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         String desc_data = blogPostList.get(position).getDesc();
         holder.setDescText(desc_data);
 
-        String image_url = blogPostList.get(position).getImage_url();
-        String thumb_url = blogPostList.get(position).getThumb_url();
+        final String image_url = blogPostList.get(position).getImage_url();
+        final String thumb_url = blogPostList.get(position).getThumb_url();
         holder.setBlogImage(image_url, thumb_url);
 
         String user_id = blogPostList.get(position).getUser_id();
 
-        FirebaseFirestore.getInstance().collection("Users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        users = new Users();
+        users.getUserById(user_id, new IUsers.GetUserByIdCallBack() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    holder.setUserName(task.getResult().getString("name"));
-                    holder.setUserImage(task.getResult().getString("image"));
-                }
+            public void onGet(String name, String image) {
+                holder.setUserName(name);
+                holder.setUserImage(image);
             }
         });
 
@@ -94,62 +72,45 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
 
 
         //real time check like exist
-        firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                .document(currentUserId).addSnapshotListener(activity, new EventListener<DocumentSnapshot>() {
+        likes.showLikeDislike(activity, blogPostId, new ILikes.LikeDislikeCallBack() {
             @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+            public void onLike() {
+                holder.like_iv.setImageResource(R.mipmap.fav_accent_ico);
+            }
 
-                if(documentSnapshot.exists()){
-                    holder.like_iv.setImageResource(R.mipmap.fav_accent_ico);
-                }
-                else{
-                    holder.like_iv.setImageResource(R.mipmap.fav_ico);
-                }
+            @Override
+            public void onDislike() {
+                holder.like_iv.setImageResource(R.mipmap.fav_ico);
             }
         });
 
 
         //real time likes count
-        firebaseFirestore.collection("Posts/"+blogPostId+"/likes").addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
+        likes.getCount(activity, blogPostId, new ILikes.LikeCountCallBack() {
             @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                if(!documentSnapshots.isEmpty()){
-
-                    int count  = documentSnapshots.size();
-                    holder.updateLikeCount(count);
-
-                }else{
-                    holder.updateLikeCount(0);
-                }
+            public void OnCount(int count) {
+                holder.updateLikeCount(count);
             }
         });
 
 
         holder.like_iv.setOnClickListener(new View.OnClickListener() {
             @Override
-             public void onClick(View v) {
-
-                firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                        .document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            public void onClick(View v) {
+                likes.likeDislike(blogPostId, new ILikes.LikeDislikeCallBack() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(!task.getResult().exists()){
+                    public void onLike() {
+                        //hit like
+                    }
 
-                            Map<String, Object> likeMap = new HashMap<>();
-                            likeMap.put("timestamp", FieldValue.serverTimestamp());
-
-                            firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                                    .document(currentUserId).set(likeMap);
-
-                        }else{
-
-                            firebaseFirestore.collection("Posts/"+blogPostId+"/likes")
-                                    .document(currentUserId).delete();
-                        }
+                    @Override
+                    public void onDislike() {
+                        //delete like
                     }
                 });
             }
-         });
+        });
+
     }
 
 
