@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.draxvel.simpleblog.R;
-import com.draxvel.simpleblog.ui.main.home.adapter.BlogRecyclerAdapter;
+import com.draxvel.simpleblog.ui.main.adapter.BlogRecyclerAdapter;
 
 public class HomeFragment extends Fragment implements IHomeView{
 

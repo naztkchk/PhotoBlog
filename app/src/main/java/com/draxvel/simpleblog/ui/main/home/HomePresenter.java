@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.draxvel.simpleblog.data.model.BlogPost;
 import com.draxvel.simpleblog.data.source.postsData.IPosts;
 import com.draxvel.simpleblog.data.source.postsData.Posts;
-import com.draxvel.simpleblog.ui.main.home.adapter.BlogRecyclerAdapter;
+import com.draxvel.simpleblog.ui.main.adapter.BlogRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.draxvel.simpleblog.ui.main.home.adapter;
+package com.draxvel.simpleblog.ui.main.adapter;
 
 import android.app.Activity;
 import android.content.Context;
