@@ -31,8 +31,7 @@ public class Auth implements IAuth {
                 if (task.isSuccessful()) {
                     callback.onSignIn();
                 } else {
-                    String e = task.getException().getMessage();
-                    callback.onFailure(e);
+                    callback.onFailure(task.getException().getMessage());
                 }
             }
         });
@@ -48,8 +47,7 @@ public class Auth implements IAuth {
                 if(task.isSuccessful()){
                     callback.onSignUp();
                 } else {
-                    String e = task.getException().getMessage();
-                    callback.onFailure(e);
+                    callback.onFailure(task.getException().getMessage());
                 }
             }
         });

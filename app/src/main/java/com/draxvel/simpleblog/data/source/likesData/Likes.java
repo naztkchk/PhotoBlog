@@ -49,8 +49,6 @@ public class Likes implements ILikes{
 
                     int count  = documentSnapshots.size();
                     likeCountCallBack.OnCount(count);
-
-
                 }else{
                     likeCountCallBack.OnCount(0);
                 }
@@ -75,7 +73,6 @@ public class Likes implements ILikes{
 
                     FirebaseFirestore.getInstance().collection("Posts/"+blogPostId+"/likes")
                             .document(currentUserId).set(likeMap);
-
                 }else{
 
                     FirebaseFirestore.getInstance().collection("Posts/"+blogPostId+"/likes")

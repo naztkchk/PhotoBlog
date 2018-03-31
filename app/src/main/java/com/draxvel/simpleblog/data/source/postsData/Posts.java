@@ -137,6 +137,34 @@ public class Posts implements IPosts{
     }
 
     @Override
+    public void updateFeedForCurrentUser(Activity activity, final UpdateFeedCallBack updateFeedCallBack) {
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Query firstQuery =
+                FirebaseFirestore.getInstance()
+                        .collection("Posts").whereEqualTo("user_id", userId)
+                        .orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
+
+        firstQuery.addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if(!documentSnapshots.isEmpty()){
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                        if (doc.getType() == DocumentChange.Type.ADDED) {
+
+                            String blogPostId = doc.getDocument().getId();
+
+                            BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
+
+                            updateFeedCallBack.OnUpdate(blogPost, false);
+                        }
+                }
+            }
+        }});
+
+    }
+
+    @Override
     public void loadMorePost(Activity activity, final LoadMorePostsCallBack loadMorePostsCallBack) {
 
         Log.i("sss1", lastVisible.getString("desc"));

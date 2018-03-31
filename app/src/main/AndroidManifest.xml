@@ -19,12 +19,12 @@
         android:roundIcon="@mipmap/login_page_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ui.auth.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,11 +40,11 @@
             android:parentActivityName=".ui.main.MainActivity">
         </activity>
 
-        <activity android:name=".ui.settings.SettingsActivity">
-        </activity>
+        <activity android:name=".ui.settings.SettingsActivity"/>
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/> <!-- optional (needed if default theme has no action bar) -->
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <!-- optional (needed if default theme has no action bar) -->
 
     </application>
 

@@ -3,6 +3,7 @@ package com.draxvel.simpleblog.ui.main.account;
 import android.app.Activity;
 
 import com.draxvel.simpleblog.data.model.BlogPost;
+import com.draxvel.simpleblog.data.source.postsData.IPosts;
 import com.draxvel.simpleblog.data.source.postsData.Posts;
 import com.draxvel.simpleblog.ui.main.adapter.BlogRecyclerAdapter;
 
@@ -32,6 +33,12 @@ public class AccountPresenter implements IAccountPresenter {
     }
 
     public void setData() {
-        //update feed for current user
+        posts.updateFeedForCurrentUser(activity, new IPosts.UpdateFeedCallBack() {
+            @Override
+            public void OnUpdate(BlogPost blogPost, boolean isFirst) {
+                 blogPostList.add(blogPost);
+                blogRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
