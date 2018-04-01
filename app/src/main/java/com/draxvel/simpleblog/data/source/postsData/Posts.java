@@ -148,7 +148,7 @@ public class Posts implements IPosts{
         firstQuery.addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                if(!documentSnapshots.isEmpty()){
+                if(documentSnapshots != null){
                     for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
                         if (doc.getType() == DocumentChange.Type.ADDED) {
 

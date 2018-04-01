@@ -71,6 +71,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         holder.setTime(DateTimeConverter.DateToString(blogPostList.get(position).getTimestamp()));
 
 
+        likes = new Likes();
         //real time check like exist
         likes.showLikeDislike(activity, blogPostId, new ILikes.LikeDislikeCallBack() {
             @Override
